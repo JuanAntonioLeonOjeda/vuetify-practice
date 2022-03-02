@@ -1,64 +1,53 @@
-Vue.component('input-email', {
+Vue.component('form-template', {
   data() {
     return {
       email: '',
-      isFalse: false
-    }
-  },
-  methods: {
-    checkEmail(email) {
-      if (!(/^(\w+)@(\w+)\.(\w\w+)$/).test(email)&& email.length !== 0) {
-        this.isFalse = true
-      } else {
-        this.isFalse = false
-      }
-    }
-  },
-  template: `<input v-model="email" :class="{'wrong': isFalse}" type="email" placeholder="Insert email" @keydown="checkEmail(email)">`
-})
-
-Vue.component('input-password', {
-  data() {
-    return {
       password: '',
-      isFalse: false
-    }
-  },
-  methods: {
-    checkPassword(password) {
-      if (!(/^.{4,}/).test(password) && password.length !== 0) {
-        this.isFalse = true
-      } else {
-        this.isFalse = false
-      }
-    }
-  },
-  template: `<input v-model="password" :class="{'wrong': isFalse}" type="password" placeholder="Insert password" @keydown="checkPassword(password)">`
-})
-
-Vue.component('submit-button', {
-  data(){
-    return {
+      wrongEmail: false,
+      wrongPass: false,
       canSubmit: false
     }
   },
   methods: {
-    requestAccess(canAccess) {
-      if(canAccess){console.alert('You are IN')}
+    checkEmail(email) {
+      if (!(/^(\w+)@(\w+)\.(\w\w+)$/).test(email) && email.length !== 0) {
+        this.wrongEmail = true
+      } else {
+        this.wrongEmail = false
+      }
+      this.allOk()
+    },
+    checkPassword(password) {
+      if (password.length < 5 && password.length !== 0) {
+        this.wrongPass = true
+      } else {
+        this.wrongPass = false
+      }
+      this.allOk()
+    },
+    requestAccess(canSubmit) {
+      canSubmit ? alert('You are IN!') : alert('Access Denied')
+    },
+    allOk() {
+      if(this.email.length === 0 || this.password.length === 0) {
+        return
+      }
+      if (!this.wrongEmail && !this.wrongPass) {
+        this.canSubmit = true
+      }
     }
   },
-  template: `<button @click="requestAccess(canAccess)" :class="{'isActive': canSubmit}">Sign Up</button>`
+  template: `
+  <section class="access">
+    <input v-model.trim="email" :class="{'wrong': wrongEmail}" type="email" placeholder="Insert email" @keyup="checkEmail(email)">
+    <br>
+    <input v-model="password" :class="{'wrong': wrongPass}" type="password" placeholder="Insert password" @keyup="checkPassword(password)">
+    <br>
+    <button @click="requestAccess(canSubmit)" :class="{'isActive': canSubmit}">Sign Up</button>
+  </section>`
 })
 
 const app = new Vue({
-  el: '#access',
-  data: {
-    canAccess: false
-  },
-  computed: {
-    checkAccess() {
-
-    }
-  }
+  el: '#app',
 })
 
