@@ -1,0 +1,24 @@
+.logo{
+  background-color: rgb(123, 109, 255);
+  width: 60vw;
+  height: 100vh;
+  display: inline-block;
+}
+#access{
+  margin-top: 0;
+  background-color: rgb(36, 36, 41);
+  width: 35vw;
+  height: 100vh;
+  display: inline-block;
+}
+.wrong{
+  color: red;
+  background-color: rgb(255, 206, 206);
+}
+button{
+  color: rgb(88, 88, 88)
+}
+.isActive{
+  background-color: green;
+  color: white;
+}
