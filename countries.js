@@ -1,4 +1,4 @@
-const contries = [
+const countries = [
   {
     "name": "Afghanistan",
     "code": "AF"
@@ -972,3 +972,5 @@ const contries = [
     "code": "ZW"
   }
 ]
+
+export {countries}

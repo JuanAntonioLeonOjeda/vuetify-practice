@@ -1,3 +1,5 @@
+import {countries} from "./countries.js"
+
 Vue.component('form-template', {
   data() {
     return {
@@ -7,7 +9,9 @@ Vue.component('form-template', {
       wrongEmail: false,
       wrongPass: false,
       repPass: false,
-      canSubmit: false
+      canSubmit: false,
+      countries: countries,
+      country: ''
     }
   },
   methods: {
@@ -53,6 +57,10 @@ Vue.component('form-template', {
     <br>
     <input v-model="repPassword" :class="{'wrong': repPass}" type="password" placeholder="Repeat password" @keyup="repeatPassword()">
     <br>
+    <br>
+    <select v-model="country">
+      <option v-for="(country, idx) in countries" :key="idx" :value="country.name"> {{ country.name }} </option>
+    </select>
     <button @click="requestAccess(canSubmit)" :class="{'isActive': canSubmit}">Sign Up</button>
   </section>`
 })
@@ -60,4 +68,3 @@ Vue.component('form-template', {
 const app = new Vue({
   el: '#app',
 })
-
