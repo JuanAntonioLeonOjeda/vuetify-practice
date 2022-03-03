@@ -20,7 +20,7 @@ const countries = [
     "code": "AS"
   },
   {
-    "name": "AndorrA",
+    "name": "Andorra",
     "code": "AD"
   },
   {

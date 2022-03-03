@@ -15,9 +15,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
-input:first-of-type{
-  margin-top:40vh;
+.signup{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .wrong{
   color: red;
@@ -30,6 +33,10 @@ button{
   background-color: green;
   color: white;
 }
-label, p{
+label, p, span{
   color:white;
+}
+.underAge{
+  color: red;
+  background-color: rgb(255, 206, 206);
 }
