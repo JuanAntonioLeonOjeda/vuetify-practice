@@ -12,7 +12,9 @@ Vue.component('form-template', {
       canSubmit: false,
       countries: countries,
       country: '',
-      gender: ''
+      gender: '',
+      birth: '',
+      under18: false,
     }
   },
   methods: {
@@ -39,16 +41,27 @@ Vue.component('form-template', {
     requestAccess() {
       this.canSubmit ? alert('You are IN!') : alert('Access Denied')
     },
+    checkAge() {
+      let today = new Date()
+      let birthDate = new Date(this.birth)
+      let age = today.getFullYear() - birthDate.getFullYear()
+      let month = today.getMonth() - birthDate.getMonth();
+      if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }   
+      age < 18 ? this.under18 = true : this.under18 = false
+      this.allOk()
+    },
     allOk() {
-      if(this.email.length === 0 || this.password.length === 0 || this.repPassword.length === 0 || this.country === '' || this.gender === '') {
+      if(this.email.length === 0 || this.password.length === 0 || this.repPassword.length === 0 || this.country === '' || this.gender === '' || this.birth === '') {
         return
       }
-      if (!this.wrongEmail && !this.wrongPass && !this.repPass) {
+      if (!this.wrongEmail && !this.wrongPass && !this.repPass && !this.under18) {
         this.canSubmit = true
       } else {
         this.canSubmit = false
       }
-    }
+    },
   },
   template: `
   <section class="access">
@@ -65,12 +78,15 @@ Vue.component('form-template', {
       <option v-for="(country, idx) in countries" :key="idx" :value="country.name"> {{ country.name }} </option>
     </select>
 
+    <p>Choose a gender:</p>
     <input type="radio" v-model="gender" id="female" value="Female" @click="allOk()">
     <label for="female">Female</label>
     <input type="radio" v-model="gender" id="male" value="Male" @click="allOk()">
     <label for="male">Male</label>
     <input type="radio" v-model="gender" id="undisclosed" value="Undisclosed" @click="allOk()">
     <label for="undisclosed">Undisclosed</label>
+    
+    <input type="date" v-model.date="birth" @keyup="checkAge()" @click="checkAge()">
 
     <button @click="requestAccess(canSubmit)" :class="{'isActive': canSubmit}">Sign Up</button>
   </section>`

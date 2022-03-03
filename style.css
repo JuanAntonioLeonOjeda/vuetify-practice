@@ -30,3 +30,6 @@ button{
   background-color: green;
   color: white;
 }
+label, p{
+  color:white;
+}
