@@ -11,7 +11,8 @@ Vue.component('form-template', {
       repPass: false,
       canSubmit: false,
       countries: countries,
-      country: ''
+      country: '',
+      gender: ''
     }
   },
   methods: {
@@ -39,7 +40,7 @@ Vue.component('form-template', {
       this.canSubmit ? alert('You are IN!') : alert('Access Denied')
     },
     allOk() {
-      if(this.email.length === 0 || this.password.length === 0 || this.repPassword.length === 0) {
+      if(this.email.length === 0 || this.password.length === 0 || this.repPassword.length === 0 || this.country === '' || this.gender === '') {
         return
       }
       if (!this.wrongEmail && !this.wrongPass && !this.repPass) {
@@ -53,14 +54,24 @@ Vue.component('form-template', {
   <section class="access">
     <input v-model.trim="email" :class="{'wrong': wrongEmail}" type="email" placeholder="Insert email" @keyup="checkEmail()">
     <br>
+
     <input v-model="password" :class="{'wrong': wrongPass}" type="password" placeholder="Insert password" @keyup="checkPassword()">
     <br>
+
     <input v-model="repPassword" :class="{'wrong': repPass}" type="password" placeholder="Repeat password" @keyup="repeatPassword()">
     <br>
-    <br>
-    <select v-model="country">
+
+    <select v-model="country" @click="allOk()">
       <option v-for="(country, idx) in countries" :key="idx" :value="country.name"> {{ country.name }} </option>
     </select>
+
+    <input type="radio" v-model="gender" id="female" value="Female" @click="allOk()">
+    <label for="female">Female</label>
+    <input type="radio" v-model="gender" id="male" value="Male" @click="allOk()">
+    <label for="male">Male</label>
+    <input type="radio" v-model="gender" id="undisclosed" value="Undisclosed" @click="allOk()">
+    <label for="undisclosed">Undisclosed</label>
+
     <button @click="requestAccess(canSubmit)" :class="{'isActive': canSubmit}">Sign Up</button>
   </section>`
 })
