@@ -22,7 +22,10 @@
   flex-direction: column;
   align-items: center;
 }
-.wrong{
+span.wrong {
+  color: red;
+}
+input.wrong{
   color: red;
   background-color: rgb(255, 206, 206);
 }
@@ -39,4 +42,10 @@ label, p, span{
 .underAge{
   color: red;
   background-color: rgb(255, 206, 206);
+}
+.medium{
+  color: orange;
+}
+.hard{
+  color: green;
 }

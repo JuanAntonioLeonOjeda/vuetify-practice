@@ -17,7 +17,8 @@ Vue.component('form-template', {
       under18: false,
       agree: false,
       mailList: false,
-      state: 'signup'
+      state: 'signup',
+      secure: '',
     }
   },
   methods: {
@@ -32,6 +33,13 @@ Vue.component('form-template', {
     checkPassword() {
       if (this.password.length < 5 && this.password.length !== 0) {
         this.wrongPass = true
+        this.secure = 'weak'
+      } else if ((/^(?=.*\d+).{5,10}$/).test(this.password) && this.password.length !== 0) {
+        this.wrongPass = false
+        this.secure = 'medium'
+      } else if ((/^(?=.*\W+)(?=.*\d+).{10,}$/).test(this.password) && this.password.length  !== 0) {
+        this.wrongPass = false
+        this.secure = 'hard'
       } else {
         this.wrongPass = false
       }
@@ -58,11 +66,11 @@ Vue.component('form-template', {
     agreement() {
       !this.agree
       let timerId = setTimeout(() => {
-        this.allOk()},1000)
+        this.allOk()},500)
     },
     changeGender(){
       let timerId = setTimeout(() => {
-        this.allOk()},1000)
+        this.allOk()},500)
     },
     acceptMail() {
       !this.mailList
@@ -93,6 +101,9 @@ Vue.component('form-template', {
     <input v-model="password" :class="{'wrong': wrongPass}" type="password" placeholder="Insert password" @keyup="checkPassword()">
     <br>
     <div class='signup' v-if="state === 'signup'">
+      <span v-if="secure === 'weak'" class='wrong'> WEAK </span>
+      <span v-else-if="secure === 'medium'" class='medium'> MEDIUM </span>
+      <span v-else-if="secure === 'hard'" class='hard'> HARD </span>
       <input v-model="repPassword" :class="{'wrong': repPass}" type="password" placeholder="Repeat password" @keyup="repeatPassword()">
       <br>
 
