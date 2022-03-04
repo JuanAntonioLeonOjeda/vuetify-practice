@@ -30,7 +30,8 @@ input.wrong{
   background-color: rgb(255, 206, 206);
 }
 button{
-  color: rgb(88, 88, 88)
+  color: rgb(88, 88, 88);
+  margin-bottom: 10px;
 }
 .isActive{
   background-color: green;
@@ -48,4 +49,14 @@ label, p, span{
 }
 .hard{
   color: green;
+}
+.gender-select{
+  margin-bottom: 10px;
+}
+.birth-date{
+  color: white;
+  margin-bottom: 10px;
+}
+.terms-conditions{
+  margin-bottom: 10px;
 }

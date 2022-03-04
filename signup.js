@@ -66,11 +66,11 @@ Vue.component('form-template', {
     agreement() {
       !this.agree
       let timerId = setTimeout(() => {
-        this.allOk()},500)
+        this.allOk()},200)
     },
     changeGender(){
       let timerId = setTimeout(() => {
-        this.allOk()},500)
+        this.allOk()},200)
     },
     acceptMail() {
       !this.mailList
@@ -111,18 +111,25 @@ Vue.component('form-template', {
         <option v-for="(country, idx) in countries" :key="idx" :value="country.name"> {{ country.name }} </option>
       </select>
 
-      <p>Choose a gender:</p>
-      <input type="radio" v-model="gender" id="female" value="Female" @click="changeGender()">
-      <label for="female">Female</label>
-      <input type="radio" v-model="gender" id="male" value="Male" @click="changeGender()">
-      <label for="male">Male</label>
-      <input type="radio" v-model="gender" id="undisclosed" value="Undisclosed" @click="changeGender()">
-      <label for="undisclosed">Undisclosed</label>
-      
-      <input type="date" :class="{'underAge': under18}" v-model.date="birth" @keyup="checkAge()" @click="checkAge()">
+      <div class="gender-select">
+        <p>Choose a gender:</p>
+        <input type="radio" v-model="gender" id="female" value="Female" @click="changeGender()">
+        <label for="female">Female</label>
+        <input type="radio" v-model="gender" id="male" value="Male" @click="changeGender()">
+        <label for="male">Male</label>
+        <input type="radio" v-model="gender" id="undisclosed" value="Undisclosed" @click="changeGender()">
+        <label for="undisclosed">Undisclosed</label>
+      </div>
 
-      <input type="checkbox" v-model="agree" @click="agreement()"><span>Accept the Terms and Conditions</span>
-      <input v-model="mailList" type="checkbox" @click="acceptMail()"><span>Join Mailing List</span>
+      <div class="birth-date">
+        Birthdate:
+        <input type="date" :class="{'underAge': under18}" v-model.date="birth" @keyup="checkAge()" @click="checkAge()">
+      </div>
+      <div class="terms-conditions">
+        <input type="checkbox" v-model="agree" @click="agreement()"><span>Accept the Terms and Conditions</span>
+        <br>
+        <input v-model="mailList" type="checkbox" @click="acceptMail()"><span>Join Mailing List</span>
+      </div>
       <button @click="requestAccess(canSubmit)" :class="{'isActive': canSubmit}">Sign Up</button>
       <span>Already a member? <button @click="changeToLogin()">Login</button></span>
     </div>
