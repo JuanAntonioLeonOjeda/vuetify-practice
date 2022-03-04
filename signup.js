@@ -97,7 +97,7 @@ Vue.component('form-template', {
   <section class="access">
     <input v-model.trim="email" :class="{'wrong': wrongEmail}" type="email" placeholder="Insert email" @keyup="checkEmail()">
     <br>
-
+    <span class="wrong" v-if="wrongEmail">Invalid email format</span>
     <input v-model="password" :class="{'wrong': wrongPass}" type="password" placeholder="Insert password" @keyup="checkPassword()">
     <br>
     <div class='signup' v-if="state === 'signup'">
@@ -106,7 +106,7 @@ Vue.component('form-template', {
       <span v-else-if="secure === 'hard'" class='hard'> HARD </span>
       <input v-model="repPassword" :class="{'wrong': repPass}" type="password" placeholder="Repeat password" @keyup="repeatPassword()">
       <br>
-
+      <span class="wrong" v-if="repPass">Passwords don't match!</span>
       <select v-model="country" @click="allOk()">
         <option v-for="(country, idx) in countries" :key="idx" :value="country.name"> {{ country.name }} </option>
       </select>
@@ -124,15 +124,21 @@ Vue.component('form-template', {
       <div class="birth-date">
         Birthdate:
         <input type="date" :class="{'underAge': under18}" v-model.date="birth" @keyup="checkAge()" @click="checkAge()">
+        <br>
+        <span class="wrong" v-if="under18">User must be at least 18 years old!</span>
       </div>
+
       <div class="terms-conditions">
         <input type="checkbox" v-model="agree" @click="agreement()"><span>Accept the Terms and Conditions</span>
         <br>
         <input v-model="mailList" type="checkbox" @click="acceptMail()"><span>Join Mailing List</span>
       </div>
+
       <button @click="requestAccess(canSubmit)" :class="{'isActive': canSubmit}">Sign Up</button>
+
       <span>Already a member? <button @click="changeToLogin()">Login</button></span>
     </div>
+
     <div class='login' v-if="state === 'login'">
       <span>Don't have an account? <button @click="changeToSignup()">Signup</button></span>
     </div>

@@ -60,3 +60,7 @@ label, p, span{
 .terms-conditions{
   margin-bottom: 10px;
 }
+.correct{
+  background-color: rgb(198, 255, 198);
+  color: green;
+}
