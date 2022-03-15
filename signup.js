@@ -95,7 +95,7 @@ Vue.component('form-template', {
   },
   template: `
   <section class="access">
-    // <input v-model.trim="email" :class="{'wrong': wrongEmail}" type="email" placeholder="Insert email" @keyup="checkEmail()">
+     <input v-model.trim="email" :class="{'wrong': wrongEmail}" type="email" placeholder="Insert email" @keyup="checkEmail()">
     <br>
     <span class="wrong" v-if="wrongEmail">Invalid email format</span>
     <input v-model="password" :class="{'wrong': wrongPass}" type="password" placeholder="Insert password" @keyup="checkPassword()">

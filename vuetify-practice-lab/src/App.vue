@@ -43,13 +43,21 @@
         <v-divider></v-divider>
         <v-card-text>
         <v-form>
-          <v-text-field outlined label="Insert Email" type="email" prepend-icon="mdi-at" v-model.trim="email" :class="{'wrong': wrongEmail}" :rules="[rules.required, rules.email]" hide-details="auto">
+          <v-text-field outlined label="Insert Email" type="email" prepend-icon="mdi-at" v-model.trim="email"
+            :class="{'wrong': wrongEmail}" :rules="[rules.required, rules.email]" hide-details="auto">
           </v-text-field>
-          <span class="wrong" v-if="wrongEmail">Invalid email format</span>
-          <v-text-field outlined label="Insert Password" class="mt-5"
-          :type="passVisible ? 'text' : 'password'" prepend-icon="mdi-lock"
-          :append-icon="passVisible ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-           @click:append="passVisible = !passVisible" :rules="[rules.required]" hide-details="auto"></v-text-field>
+          <v-text-field outlined label="Insert Password" class="mt-5" v-model="password"
+            :type="passVisible ? 'text' : 'password'" prepend-icon="mdi-lock"
+            :append-icon="passVisible ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+           @click:append="passVisible = !passVisible" :rules="[rules.required, rules.length]"
+            hide-details="auto">
+          </v-text-field>
+          <v-text-field outlined label="Confirm Password" class="mt-5" v-model="repPassword"
+            :type="passVisible ? 'text' : 'password'" prepend-icon="mdi-lock"
+            :append-icon="passVisible ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+           @click:append="passVisible = !passVisible" :rules="[rules.required, (repPassword === password) || 'Passwords don\'t match!']"
+            hide-details="auto">
+          </v-text-field>
         </v-form>
         </v-card-text>
       </v-card>
@@ -86,33 +94,22 @@ export default {
       email: value => {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         return pattern.test(value) || 'Invalid e-mail.'
+      },
+      length: value => {
+        return value.length >= 5 || 'Weak password. At least 5 characters!'
       }
     }
+    // hint: {
+    //   security: value => {
+    //     if ((/^(?=.*\d+).{5,10}$/).test(value)) {
+    //       return (/^(?=.*\d+).{5,10}$/).test(value)
+    //     } else if ((/^(?=.*\W+)(?=.*\d+).{10,}$/).test(value)) {
+    //         return (/^(?=.*\W+)(?=.*\d+).{10,}$/).test(value) && 'Hard password. Perfect!'
+    //     }
+    //   }
+    // }
   }),
   methods: {
-    checkEmail () {
-      if (!(/^(\w+)@(\w+)\.(\w\w+)$/).test(this.email) && this.email.length !== 0) {
-        this.wrongEmail = true
-      } else {
-        this.wrongEmail = false
-      }
-      this.allOk()
-    },
-    checkPassword () {
-      if (this.password.length < 5 && this.password.length !== 0) {
-        this.wrongPass = true
-        this.secure = 'weak'
-      } else if ((/^(?=.*\d+).{5,10}$/).test(this.password) && this.password.length !== 0) {
-        this.wrongPass = false
-        this.secure = 'medium'
-      } else if ((/^(?=.*\W+)(?=.*\d+).{10,}$/).test(this.password) && this.password.length !== 0) {
-        this.wrongPass = false
-        this.secure = 'hard'
-      } else {
-        this.wrongPass = false
-      }
-      this.allOk()
-    },
     repeatPassword () {
       this.repPassword !== this.password ? this.repPass = true : this.repPass = false
       this.allOk()
