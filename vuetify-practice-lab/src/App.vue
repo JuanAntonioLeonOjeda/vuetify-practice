@@ -58,6 +58,19 @@
            @click:append="passVisible = !passVisible" :rules="[rules.required, (repPassword === password) || 'Passwords don\'t match!']"
             hide-details="auto">
           </v-text-field>
+           <v-select
+            :items="countries" item-text="name" class="mt-5" v-model="country"
+            label="Select your country" dense outlined prepend-icon="mdi-earth" :rules="[rules.required]"
+          ></v-select>
+          <span>Choose your gender:</span>
+          <v-radio-group v-model="gender" row>
+            <v-radio :label="`Female`" value="female" color="rgb(123, 109, 255)"></v-radio>
+            <v-radio :label="`Male`" value="male" color="rgb(123, 109, 255)"></v-radio>
+            <v-radio :label="`Undisclosed`" value="undisclosed" color="rgb(123, 109, 255)"></v-radio>
+          </v-radio-group>
+          <v-text-field outlined label="Birhdate" type="date" prepend-icon="mdi-cake-variant" v-model="birth"
+            :rules="[rules.required, rules.birth]" hide-details="auto">
+          </v-text-field>
         </v-form>
         </v-card-text>
       </v-card>
@@ -97,6 +110,16 @@ export default {
       },
       length: value => {
         return value.length >= 5 || 'Weak password. At least 5 characters!'
+      },
+      birth: value => {
+        const today = new Date()
+        const birthDate = new Date(value)
+        let age = today.getFullYear() - birthDate.getFullYear()
+        const month = today.getMonth() - birthDate.getMonth()
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+          age--
+        }
+        return age > 18 || 'User must be at least 18 years old'
       }
     }
     // hint: {
