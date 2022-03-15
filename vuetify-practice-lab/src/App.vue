@@ -7,41 +7,32 @@
     >
       <div class="d-flex align-center">
         <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          alt="Reboot Logo"
+          src="@/assets/reboot.png"
           transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
         />
+
+        <span style='font-size: 20pt;'>Reboot Practice - Vuetify</span>
       </div>
 
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        href="https://github.com/JuanAntonioLeonOjeda"
         target="_blank"
         text
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+        <span class="mr-2">Made by Juan Antonio</span>
+        <v-icon>mdi-github</v-icon>
       </v-btn>
     </v-app-bar>
 
-    <v-main>
+    <v-main class="main-content">
       <v-card id="access" class="mt-15" width="500px">
         <v-card-title class="card-title">Signup</v-card-title>
         <v-divider></v-divider>
-        <v-card-text>
+        <v-card-text class="content">
         <v-form>
           <v-text-field outlined label="Insert Email" type="email" prepend-icon="mdi-at" v-model.trim="email"
             :class="{'wrong': wrongEmail}" :rules="[rules.required, rules.email]" hide-details="auto">
@@ -193,5 +184,11 @@ export default {
 }
 .card-title {
   background-color: rgb(123, 109, 255);
+}
+/* .content{
+  background-color: rgba(0, 0, 0, 0.233);
+} */
+.main-content{
+  background-color: rgba(0, 0, 0, 0.753);
 }
 </style>
