@@ -8,7 +8,7 @@
           transition="scale-transition"
           width="100"
         />
-        <span style='font-size: 20pt;'>Reboot Practice - Vuetify</span>
+        <span style='font-size: 20pt; font-family: Arial Rounded MT Bold'>Reboot Practice - Vuetify</span>
       </div>
     </v-app-bar>
 
@@ -54,7 +54,7 @@
             <template v-slot:label>
               <div>
                 I accept
-                <v-tooltip bottom>
+                <v-tooltip bottom color="rgb(123, 109, 255)">
                   <template v-slot:activator="{ on }">
                     <a href="https://es.lipsum.com/" target="blank" @click.stop v-on="on" required>
                     Terms and Conditions
@@ -73,8 +73,31 @@
           <v-col class="text-center">
             <v-btn class="white--text" rounded :disabled="!valid" color="rgb(123, 109, 255)" @click="requestAccess">Signup</v-btn>
           </v-col>
-          <span class="login-btn">Already a member?<a href="https://es.lipsum.com/" target="blank">Login</a>
-          </span>
+          <v-divider></v-divider>
+          <span class="login-btn">Already a member?
+            <a @click="overlay = !overlay" target="blank">Login</a></span>
+            <v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" color="rgba(0, 0, 0, 0.753)">
+               <v-card id="access" class="mt-15" width="500px">
+                <v-card-title class="card-title">Login</v-card-title>
+                <v-divider></v-divider>
+                <v-card-text class="content-login">
+                <v-form ref="form" v-model="valid" class="login-screen">
+                <v-text-field outlined label="user@example.com" type="email" prepend-icon="mdi-at" v-model.trim="email" :class="{'wrong': wrongEmail}" :rules="[rules.required, rules.email]" hide-details="auto">
+                </v-text-field>
+                <v-text-field outlined label="Insert Password" class="mt-5" v-model="password"
+                :type="passVisible ? 'text' : 'password'" prepend-icon="mdi-lock"
+                :append-icon="passVisible ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                @click:append="passVisible = !passVisible" :rules="[rules.required, rules.length]"
+                hide-details="auto">
+                </v-text-field>
+                <br>
+                <v-divider></v-divider>
+                <span class="login-btn">Don't have an account?<a @click="overlay = false">
+                  Signup</a></span>
+              </v-form>
+                </v-card-text>
+               </v-card>
+            </v-overlay>
         </v-form>
         </v-card-text>
       </v-card>
@@ -99,6 +122,9 @@ export default {
   name: 'App',
 
   data: () => ({
+    absolute: true,
+    opacity: 1,
+    overlay: false,
     valid: true,
     email: '',
     password: '',
@@ -208,9 +234,6 @@ export default {
 .card-title {
   background-color: rgb(123, 109, 255);
 }
-/* .content{
-  background-color: rgba(0, 0, 0, 0.233);
-} */
 .main-content{
   background-color: rgba(0, 0, 0, 0.753);
 }
@@ -234,7 +257,7 @@ footer{
   background-color: rgb(123, 109, 255);
   color: white;
 }
-.inactive{
-  background-color: blue;
-}
+/* .content-login{
+  background-color: white;
+} */
 </style>
