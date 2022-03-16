@@ -1,31 +1,15 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="rgb(123, 109, 255)"
-      dark
-    >
-      <div class="d-flex align-center">
+    <v-app-bar class="nav-bar" app color="rgb(123, 109, 255)" dark>
+      <div id="header" class="d-flex align-center">
         <v-img
           alt="Reboot Logo"
           src="@/assets/reboot.png"
           transition="scale-transition"
           width="100"
         />
-
         <span style='font-size: 20pt;'>Reboot Practice - Vuetify</span>
       </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/JuanAntonioLeonOjeda"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Made by Juan Antonio</span>
-        <v-icon>mdi-github</v-icon>
-      </v-btn>
     </v-app-bar>
 
     <v-main class="main-content">
@@ -33,9 +17,8 @@
         <v-card-title class="card-title">Signup</v-card-title>
         <v-divider></v-divider>
         <v-card-text class="content">
-        <v-form>
-          <v-text-field outlined label="user@example.com" type="email" prepend-icon="mdi-at" v-model.trim="email"
-            :class="{'wrong': wrongEmail}" :rules="[rules.required, rules.email]" hide-details="auto">
+        <v-form ref="form" v-model="valid">
+          <v-text-field outlined label="user@example.com" type="email" prepend-icon="mdi-at" v-model.trim="email" :class="{'wrong': wrongEmail}" :rules="[rules.required, rules.email]" hide-details="auto">
           </v-text-field>
           <v-text-field outlined label="Insert Password" class="mt-5" v-model="password"
             :type="passVisible ? 'text' : 'password'" prepend-icon="mdi-lock"
@@ -52,8 +35,7 @@
           <v-divider></v-divider>
            <v-select
             :items="countries" item-text="name" class="mt-5" v-model="country"
-            label="Select your country" dense outlined prepend-icon="mdi-earth" :rules="[rules.required]"
-          ></v-select>
+            label="Select your country" dense outlined prepend-icon="mdi-earth" :rules="[v => !!v || 'Please select a country']"></v-select>
           <span>Choose your gender:</span>
           <v-radio-group v-model="gender" row>
             <v-radio :label="`Female`" value="female" color="rgb(123, 109, 255)" append-icon="mdi-gender-female"></v-radio>
@@ -68,13 +50,13 @@
           <v-text-field outlined label="Birhdate" type="date" prepend-icon="mdi-cake-variant" v-model="birth"
             :rules="[rules.required, rules.birth]" hide-details="auto">
           </v-text-field>
-          <v-checkbox v-model="agree" color="rgb(123, 109, 255)" class="mt-10" hide-details="auto">
+          <v-checkbox v-model="agree" color="rgb(123, 109, 255)" class="mt-10" hide-details="auto" :rules="[v => !!v || 'You must agree to continue!']">
             <template v-slot:label>
               <div>
                 I accept
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
-                    <a href="https://es.lipsum.com/" target="blank" @click.stop v-on="on">
+                    <a href="https://es.lipsum.com/" target="blank" @click.stop v-on="on" required>
                     Terms and Conditions
                     </a>
                   </template>
@@ -89,12 +71,24 @@
             </template>
           </v-checkbox>
           <v-col class="text-center">
-            <v-btn class="white--text" color="rgb(123, 109, 255)" rounded>Signup</v-btn>
+            <v-btn class="white--text" rounded :disabled="!valid" color="rgb(123, 109, 255)" @click="requestAccess">Signup</v-btn>
           </v-col>
+          <span class="login-btn">Already a member?<a href="https://es.lipsum.com/" target="blank">Login</a>
+          </span>
         </v-form>
         </v-card-text>
       </v-card>
     </v-main>
+      <v-footer class="white--text" color="rgb(123, 109, 255)">
+        Reboot Academy &copy; 2022
+        <v-spacer></v-spacer>
+
+      <v-btn class="white--text" href="https://github.com/JuanAntonioLeonOjeda"
+      target="_blank" text>
+        <span class="mr-2">Made by Juan Antonio</span>
+        <v-icon>mdi-github</v-icon>
+      </v-btn>
+      </v-footer>
   </v-app>
 </template>
 
@@ -105,6 +99,7 @@ export default {
   name: 'App',
 
   data: () => ({
+    valid: true,
     email: '',
     password: '',
     repPassword: '',
@@ -153,12 +148,18 @@ export default {
     // }
   }),
   methods: {
+    validate () {
+      this.$refs.form.validate()
+    },
+    check () {
+      console.log(this.wrongEmail, this.wrongPass, this.rePass, this.under18, this.agree)
+    },
     repeatPassword () {
       this.repPassword !== this.password ? this.repPass = true : this.repPass = false
       this.allOk()
     },
     requestAccess () {
-      this.canSubmit ? alert('You are IN!') : alert('Access Denied')
+      alert('You are IN!')
     },
     checkAge () {
       const today = new Date()
@@ -190,17 +191,6 @@ export default {
     },
     changeToSignup () {
       this.state = 'signup'
-    },
-    allOk () {
-      if (this.email.length === 0 || this.password.length === 0 || this.repPassword.length === 0 || this.country === '' || this.gender === '' || this.birth === '') {
-        this.canSubmit = false
-        return
-      }
-      if (!this.wrongEmail && !this.wrongPass && !this.repPass && !this.under18 && this.agree) {
-        this.canSubmit = true
-      } else {
-        this.canSubmit = false
-      }
     }
   }
 }
@@ -210,6 +200,10 @@ export default {
 #access {
   margin: 0 auto;
   color: white;
+}
+.nav-bar{
+  display: flex;
+  justify-content: center;
 }
 .card-title {
   background-color: rgb(123, 109, 255);
@@ -225,5 +219,22 @@ export default {
 }
 .gender-icon{
   margin-right: 20px;
+}
+.login-btn{
+  display: flex;
+  justify-content: center;
+}
+.footer{
+  color: white;
+}
+footer{
+  justify-content: center;
+}
+.isActive{
+  background-color: rgb(123, 109, 255);
+  color: white;
+}
+.inactive{
+  background-color: blue;
 }
 </style>
