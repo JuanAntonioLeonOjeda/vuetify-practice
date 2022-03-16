@@ -34,7 +34,7 @@
         <v-divider></v-divider>
         <v-card-text class="content">
         <v-form>
-          <v-text-field outlined label="Insert Email" type="email" prepend-icon="mdi-at" v-model.trim="email"
+          <v-text-field outlined label="user@example.com" type="email" prepend-icon="mdi-at" v-model.trim="email"
             :class="{'wrong': wrongEmail}" :rules="[rules.required, rules.email]" hide-details="auto">
           </v-text-field>
           <v-text-field outlined label="Insert Password" class="mt-5" v-model="password"
@@ -43,25 +43,54 @@
            @click:append="passVisible = !passVisible" :rules="[rules.required, rules.length]"
             hide-details="auto">
           </v-text-field>
-          <v-text-field outlined label="Confirm Password" class="mt-5" v-model="repPassword"
+          <v-text-field outlined label="Confirm Password" class="mt-5 mb-5" v-model="repPassword"
             :type="passVisible ? 'text' : 'password'" prepend-icon="mdi-lock"
             :append-icon="passVisible ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
            @click:append="passVisible = !passVisible" :rules="[rules.required, (repPassword === password) || 'Passwords don\'t match!']"
             hide-details="auto">
           </v-text-field>
+          <v-divider></v-divider>
            <v-select
             :items="countries" item-text="name" class="mt-5" v-model="country"
             label="Select your country" dense outlined prepend-icon="mdi-earth" :rules="[rules.required]"
           ></v-select>
           <span>Choose your gender:</span>
           <v-radio-group v-model="gender" row>
-            <v-radio :label="`Female`" value="female" color="rgb(123, 109, 255)"></v-radio>
+            <v-radio :label="`Female`" value="female" color="rgb(123, 109, 255)" append-icon="mdi-gender-female"></v-radio>
+            <v-icon class="gender-icon">mdi-gender-female</v-icon>
+            <v-spacer></v-spacer>
             <v-radio :label="`Male`" value="male" color="rgb(123, 109, 255)"></v-radio>
+            <v-icon class="gender-icon">mdi-gender-male</v-icon>
+            <v-spacer></v-spacer>
             <v-radio :label="`Undisclosed`" value="undisclosed" color="rgb(123, 109, 255)"></v-radio>
+            <v-icon class="gender-icon">mdi-gender-non-binary</v-icon>
           </v-radio-group>
           <v-text-field outlined label="Birhdate" type="date" prepend-icon="mdi-cake-variant" v-model="birth"
             :rules="[rules.required, rules.birth]" hide-details="auto">
           </v-text-field>
+          <v-checkbox v-model="agree" color="rgb(123, 109, 255)" class="mt-10" hide-details="auto">
+            <template v-slot:label>
+              <div>
+                I accept
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <a href="https://es.lipsum.com/" target="blank" @click.stop v-on="on">
+                    Terms and Conditions
+                    </a>
+                  </template>
+                  Opens in new window
+                </v-tooltip>
+              </div>
+            </template>
+          </v-checkbox>
+          <v-checkbox v-model="mailList" color="rgb(123, 109, 255)" class="mt-0" hide-details="auto">
+            <template v-slot:label>
+              Join Mailing List
+            </template>
+          </v-checkbox>
+          <v-col class="text-center">
+            <v-btn class="white--text" color="rgb(123, 109, 255)" rounded>Signup</v-btn>
+          </v-col>
         </v-form>
         </v-card-text>
       </v-card>
@@ -190,5 +219,11 @@ export default {
 } */
 .main-content{
   background-color: rgba(0, 0, 0, 0.753);
+}
+.v-input--radio-group.v-input--radio-group--row .v-radio{
+  margin-right: 5px;
+}
+.gender-icon{
+  margin-right: 20px;
 }
 </style>
